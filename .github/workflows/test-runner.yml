@@ -1,13 +1,20 @@
-name: Test Self-Hosted Runner
+name: Deploy Innovatech Web App
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  test:
+  deploy:
     runs-on: self-hosted
 
     steps:
-      - name: Test runner
-        run: echo "Self-hosted runner works!"
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
+      - name: Test runner
+        run: echo "Self-hosted runner received the deployment job"
+
+      - name: Show files
+        run: ls -la
