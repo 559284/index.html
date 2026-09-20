@@ -26,8 +26,10 @@ jobs:
 
       - name: Deploy website to AWS webservers
         run: |
+          CONTENT=$(base64 -w 0 index.html)
+
           aws ssm send-command \
             --instance-ids i-0bbc544663829a294 i-0d96412161098e947 \
             --document-name "AWS-RunShellScript" \
-            --parameters 'commands=["sudo docker exec nginx sh -c '\''cat > /usr/share/nginx/html/index.html <<\"EOF\"\n<h1>Innovatech Web Application</h1>\n<p>Deployed automatically with GitHub Actions.</p>\nEOF'\''"]' \
+            --parameters "commands=[\"echo $CONTENT | base64 -d | sudo docker exec -i nginx sh -c 'cat > /usr/share/nginx/html/index.html'\"]" \
             --region eu-central-1
