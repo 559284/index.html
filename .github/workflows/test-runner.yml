@@ -24,4 +24,10 @@ jobs:
       - name: Test AWS connection
         run: aws sts get-caller-identity
 
-
+      - name: Deploy website to AWS webservers
+        run: |
+          aws ssm send-command \
+            --instance-ids i-0bbc544663829a294 i-0d96412161098e947 \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=["sudo docker exec nginx sh -c '\''cat > /usr/share/nginx/html/index.html <<\"EOF\"\n<h1>Innovatech Web Application</h1>\n<p>Deployed automatically with GitHub Actions.</p>\nEOF'\''"]' \
+            --region eu-central-1
