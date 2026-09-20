@@ -1,4 +1,4 @@
-name: Testt AWS Connection
+name: Test AWS Connection
 
 on:
   push:
